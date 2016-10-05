@@ -1,0 +1,212 @@
+Part 1.
+
+a. 
+
+>> pollen = imread('Pollen.png');
+>> imshow(pollen)
+>> license('test','image_toolbox')
+
+ans =
+
+     1
+
+>> help imfilter
+>> box_filter = [0.04 0.04 0.04 0.04 0.04];
+>> box_filter = [box_filter; box_filter; box_filter; box_filter; box_filter];
+>> box_image = imfilter(pollen, box_filter);
+>> imshow(pollen)
+>> figure
+>> imshow(box_image)
+
+
+
+b.
+
+>> box_image = im2double(box_image);
+>> pollen = im2double(pollen);
+>> subtract_image = imsubtract(pollen,box_image);
+>> imshow(subtract_image)
+>> subtract_box_minus_pollen = imsubtract(box_image,pollen);
+>> imshow(subtract_box_minus_pollen)
+>> figure
+>> imshow(subtract_image)
+>> imshow(subtract_box_minus_pollen)
+
+
+
+c.
+
+>> added_pollen_box_image = imadd(pollen,subtract_image);
+>> imshow(added_pollen_box_image)
+>> imshow(added_pollen_box_image)
+>> figure
+>> imshow(pollen)
+
+
+
+d.
+
+>> box_filter_twenty = [0.0025 0.0025 0.0025 0.0025 0.0025];
+>> box_filter_twenty = [box_filter_twenty box_filter_twenty box_filter_twenty box_filter_twenty ];
+>> box_filter_twenty = [box_filter_twenty; box_filter_twenty; box_filter_twenty; box_filter_twenty; box_filter_twenty];
+>> box_filter_twenty = [box_filter_twenty; box_filter_twenty; box_filter_twenty; box_filter_twenty];
+
+>> d_box_filter = imfilter(pollen,box_filter_twenty);
+>> imshow(d_box_filter)
+>> figure
+>> imshow(pollen)
+
+>> d_subtract_image = imsubtract(pollen,d_box_filter);
+>> imshow(pollen);
+>> figure
+>> imshow(d_subtract_image)
+
+>> d_added_pollen_box_image = imadd(pollen,d_subtract_image);
+>> imshow(pollen);
+>> figure
+>> imshow(d_added_pollen_box_image)
+
+
+
+
+
+
+
+
+
+
+
+
+Part 2. 
+
+a.
+
+1.
+
+>> morgan = imread('Morgan.tif');
+>> imshow(morgan)
+
+>> average = fspecial('average',5);
+>> avg_morgan = imfilter(morgan,average);
+>> imshow(avg_morgan);
+
+2.
+
+>> disk = fspecial('disk',2);
+>> disk_morgan = imfilter(morgan,disk);
+>> imshow(disk_morgan)
+>> figure
+>> imshow(morgan)
+
+
+>> disk
+
+disk =
+
+         0    0.0170    0.0381    0.0170         0
+    0.0170    0.0784    0.0796    0.0784    0.0170
+    0.0381    0.0796    0.0796    0.0796    0.0381
+    0.0170    0.0784    0.0796    0.0784    0.0170
+         0    0.0170    0.0381    0.0170         0
+
+
+3.
+
+>> gaussian_point_five = fspecial('gaussian', 5, 0.5);
+>> gaussian = gaussian_point_five;
+>> gaussian
+
+gaussian =
+
+    0.0000    0.0000    0.0002    0.0000    0.0000
+    0.0000    0.0113    0.0837    0.0113    0.0000
+    0.0002    0.0837    0.6187    0.0837    0.0002
+    0.0000    0.0113    0.0837    0.0113    0.0000
+    0.0000    0.0000    0.0002    0.0000    0.0000
+
+
+>> gauss2 = fspecial('gaussian',5,0.25)
+
+gauss2 =
+
+         0         0    0.0000         0         0
+         0    0.0000    0.0003    0.0000         0
+    0.0000    0.0003    0.9987    0.0003    0.0000
+         0    0.0000    0.0003    0.0000         0
+         0         0    0.0000         0         0
+
+>> gauss3 = fspecial('gaussian',5,2.0)
+
+gauss3 =
+
+    0.0232    0.0338    0.0383    0.0338    0.0232
+    0.0338    0.0492    0.0558    0.0492    0.0338
+    0.0383    0.0558    0.0632    0.0558    0.0383
+    0.0338    0.0492    0.0558    0.0492    0.0338
+    0.0232    0.0338    0.0383    0.0338    0.0232
+
+>> gauss4 = fspecial('gaussian',5,0.75)
+
+gauss4 =
+
+    0.0002    0.0033    0.0081    0.0033    0.0002
+    0.0033    0.0479    0.1164    0.0479    0.0033
+    0.0081    0.1164    0.2831    0.1164    0.0081
+    0.0033    0.0479    0.1164    0.0479    0.0033
+    0.0002    0.0033    0.0081    0.0033    0.0002
+
+
+
+
+
+
+
+i.
+
+>> subtract_avg_morgan = imsubtract(morgan,avg_morgan);
+>> sharpening_avg_morgan = imadd(morgan,subtract_avg_morgan);
+>> imshow(sharpening_avg_morgan)
+>> figure
+>> imshow(sharpening_avg_morgan)
+
+>> subtract_disk_morgan = imsubtract(morgan, disk_morgan);
+>> sharpening_disk_morgan = imadd(morgan,subtract_disk_morgan);
+>> imshow(morgan);
+>> figure
+>> imshow(sharpening_disk_morgan)
+
+>> subtract_gauss_morgan = imsubtract(morgan, gauss_morgan);
+>> sharpening_gauss_morgan = imadd(morgan, subtract_gauss_morgan);
+>> imshow(morgan)
+>> figure
+>> imshow(sharpening_gauss_morgan)
+
+>> imshow(sharpening_avg_morgan);
+>> figure
+>> imshow(sharpening_disk_morgan);
+>> figure
+>> imshow(sharpening_gauss_morgan);
+
+
+
+
+
+b.
+
+>> unsharp = fspecial('unsharp')
+
+unsharp =
+
+   -0.1667   -0.6667   -0.1667
+   -0.6667    4.3333   -0.6667
+   -0.1667   -0.6667   -0.1667
+
+>> unsharp_morgan = imfilter(morgan, unsharp);
+>> imshow(morgan), figure, imshow(unsharp_morgan)
+
+
+
+
+
+
+
